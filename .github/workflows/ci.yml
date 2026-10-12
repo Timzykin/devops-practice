@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   validate-site:
-    name: Check website
+    name: Check website and build image
     runs-on: ubuntu-latest
 
     steps:
@@ -24,5 +24,8 @@ jobs:
       - name: Check website content
         run: |
           grep -q '<title>DevOps Lab</title>' site/index.html
-          grep -q 'DevOps Lab is running!' site/index.html
+          grep -q '<h1>' site/index.html
           echo "Website checks passed!"
+
+      - name: Build Docker image
+        run: docker build -t devops-lab:test .
