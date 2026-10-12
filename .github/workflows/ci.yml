@@ -1,0 +1,28 @@
+name: CI - Validate Website
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-site:
+    name: Check website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository code
+        uses: actions/checkout@v7
+
+      - name: Check that website exists
+        run: test -f site/index.html
+
+      - name: Check website content
+        run: |
+          grep -q '<title>DevOps Lab</title>' site/index.html
+          grep -q 'DevOps Lab is running!' site/index.html
+          echo "Website checks passed!"
